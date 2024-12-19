@@ -1,6 +1,8 @@
-# api/serializers.py
+
 from rest_framework import serializers
-from .models import User, Product, Order, ProductsOrders
+from .models import  Product, Order, ProductsOrders
+from django.contrib.auth.models import User
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
