@@ -8,7 +8,7 @@ from rest_framework.authentication import TokenAuthentication
 from .models import Product, User
 from django.shortcuts import get_object_or_404
 
-from .serializers import ProductSerializer, UserSerializer
+from .serializers import ProductSerializer, UserSerializer, OrderSerializer
 
 
 @api_view(['POST'])
@@ -51,11 +51,8 @@ def login(request):
 @permission_classes([IsAuthenticated])
 def profile(request):
 
-    # Obtenemos el usuario a partir del username​
 
     user = get_object_or_404(User, username=request.user.username)
-
-    # Serializamos el objeto del usuario​
 
     user_serialized = UserSerializer(user)
 
@@ -77,7 +74,8 @@ def list_products(request):
     return Response(serializer.data)
 
 @api_view(['POST'])
-@permission_classes([AllowAny])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def create_product(request):
     serializer = ProductSerializer(data=request.data)
     if serializer.is_valid():
@@ -107,3 +105,27 @@ def destroy_product(request, pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
     product.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+@permission_classes([AllowAny])
+@api_view(['POST'])
+def create_order(request):
+    if not request.user.is_authenticated:
+        return Response({'error': 'Authentication required.'}, status=status.HTTP_403_FORBIDDEN)
+
+    data = request.data
+    data['user'] = request.user  # Agregar el usuario a los datos
+
+    serializer = OrderSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def list_orders(request):
+    orders = Order.objects.filter(user=request.user)  # Filtrar órdenes por el usuario autenticado
+    serializer = OrderSerializer(orders, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
