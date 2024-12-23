@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario de Productos</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        nav {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+        }
+        #product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        .card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px;
+            padding: 15px;
+            width: 200px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .card h2 {
+            font-size: 1.5em;
+            margin: 10px 0;
+        }
+        .card p {
+            margin: 5px 0;
+        }
+        .card .price {
+            font-weight: bold;
+            color: #28a745;
+        }
+        .error {
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/admin/">Administración</a></li>
+            <li><a href="/products/">Productos</a></li>
+            <li><a href="/orders/">Órdenes</a></li>
+            <li><a href="/documentacion/">Documentacion</a></li>
+        </ul>
+    </nav>
+    <h1>Productos Disponibles</h1>
+    <div id="product-list">
+        <!-- Aquí se cargarán los productos -->
+    </div>
+    <div id="error-message" class="error"></div>
+    <script>
+        // Función para cargar productos desde la API
+        async function loadProducts() {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/products/'); // Cambia la URL según tu API
+                if (!response.ok) {
+                    throw new Error('Error al cargar los productos');
+                }
+                const products = await response.json();
+                displayProducts(products);
+            } catch (error) {
+                document.getElementById('error-message').innerText = error.message;
+            }
+        }
+
+        // Función para mostrar productos en el DOM
+        function displayProducts(products) {
+            const productList = document.getElementById('product-list');
+            productList.innerHTML = ''; // Limpiar la lista antes de agregar nuevos productos
+
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <h2>${product.name}</h2>
+                    <p class="price">$${product.price.toFixed(2)}</p>
+                    <p>Stock: ${product.stock}</p>
+                `;
+                productList.appendChild(card);
+            });
+        }
+
+        // Cargar productos al cargar la página
+        window.onload = loadProducts;
+    </script>
+</body>
+</html>
