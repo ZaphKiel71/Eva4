@@ -1,6 +1,6 @@
 # api/urls.py
 from django.urls import path
-from .views import list_products, create_product, update_product, destroy_product, register,login,list_orders,create_order
+from .views import list_products,profile, create_product, update_product, destroy_product, register,login,list_orders,create_order
 from Front.views import index, documentacion
 
 
@@ -9,6 +9,7 @@ urlpatterns = [
     path('documentacion/',documentacion,name='documentacion'),
     path('register/', register,name='register'),
     path('login/',login,name='login'),
+    path('profile/',profile,name='profile'),
     path('products/', list_products, name='list_products'),
     path('products/create/', create_product, name='create_product'),
     path('products/<pk>/update/', update_product, name='update_product'),

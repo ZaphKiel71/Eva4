@@ -101,7 +101,8 @@ def update_product(request, pk):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['DELETE'])
-@permission_classes([AllowAny])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated]) 
 def destroy_product(request, pk):
     try:
         product = Product.objects.get(pk=pk)
@@ -127,7 +128,15 @@ def create_order(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
 def list_orders(request):
     orders = Order.objects.filter(user=request.user)  # Filtrar órdenes por el usuario autenticado
     serializer = OrderSerializer(orders, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+
+
+    

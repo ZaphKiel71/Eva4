@@ -64,6 +64,7 @@
             color: red;
             text-align: center;
         }
+        
     </style>
 </head>
 <body>
@@ -79,12 +80,13 @@
     <div id="product-list">
         <!-- Aquí se cargarán los productos -->
     </div>
+
     <div id="error-message" class="error"></div>
     <script>
         // Función para cargar productos desde la API
         async function loadProducts() {
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/products/'); // Cambia la URL según tu API
+                const response = await fetch('http://127.0.0.1:8000/products/'); // Cambia la URL según tu API
                 if (!response.ok) {
                     throw new Error('Error al cargar los productos');
                 }
@@ -94,7 +96,7 @@
                 document.getElementById('error-message').innerText = error.message;
             }
         }
-
+        
         // Función para mostrar productos en el DOM
         function displayProducts(products) {
             const productList = document.getElementById('product-list');
@@ -105,7 +107,7 @@
                 card.className = 'card';
                 card.innerHTML = `
                     <h2>${product.name}</h2>
-                    <p class="price">$${product.price.toFixed(2)}</p>
+                    <p>Price: ${product.price}</p>
                     <p>Stock: ${product.stock}</p>
                 `;
                 productList.appendChild(card);
@@ -115,5 +117,7 @@
         // Cargar productos al cargar la página
         window.onload = loadProducts;
     </script>
+
+    
 </body>
 </html>

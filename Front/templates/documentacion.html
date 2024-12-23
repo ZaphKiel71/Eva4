@@ -1,4 +1,125 @@
-<h1>
-    
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación de API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 20px;
+        }
+        p {
+            margin: 10px 0;
+        }
+        code {
+            background-color: #eaeaea;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        .url {
+            font-weight: bold;
+            color: #27ae60;
+        }
+        .method {
+            font-weight: bold;
+            color: #c0392b;
+        }
+        .token {
+            background-color: #dff0d8;
+            border-left: 5px solid #3c763d;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .note {
+            background-color: #f9f9f9;
+            border-left: 5px solid #f39c12;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .warning {
+            background-color: #f2dede;
+            border-left: 5px solid #a94442;
+            padding: 10px;
+            margin: 10px 0;
+            color: #a94442;
+        }
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 20px 0;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .back-button:hover {
+            background-color: #1a6a8a;
+        }
+    </style>
+</head>
+<body>
 
-</h1>
+<h1>Documentación de la API</h1>
+
+<button class="back-button" onclick="goBack()">Inicio</button>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
+<h2>Ingreso y Consulta de Datos</h2>
+<p>En esta parte procederemos a explicar cómo ingresar o consultar datos.</p>
+
+<h2>Método Register</h2>
+<p>Para empezar, se explicará el método de <strong>Register</strong>. Se deberá ingresar en la siguiente URL en Thunderclient: <span class="url">http://localhost:8000/register/</span>. El método HTTP que se debe usar es <span class="method">POST</span>, donde se ingresarán los parámetros de <code>username</code> y <code>password</code> en formato JSON. Los usuarios creados anteriormente son: <code>Felix</code>, <code>pedro</code>, <code>jose</code>, <code>benjamin</code>, <code>manuel</code>. La contraseña para todos los usuarios es <code>inacap123</code>.</p>
+
+<h2>Método Login</h2>
+<p>Luego está el método <strong>Login</strong>. Se deberá ingresar en la URL: <span class="url">http://localhost:8000/login/</span>. El método HTTP que se deberá usar es <span class="method">POST</span>, ingresando nuevamente los parámetros de <code>username</code> y <code>password</code> en formato JSON. Al ingresarlo, se le entregará el token del usuario que se usará más adelante.</p>
+
+<h2>Método Profile</h2>
+<p>El método <strong>Profile</strong> sirve para ver los datos del usuario, menos la contraseña. Para ingresar, debe usar la URL: <span class="url">http://localhost:8000/profile/</span> con el método <span class="method">POST</span>. Para usar este método, deberá usar el token que se entregó anteriormente. Este lo deberá ingresar en los Headers de Thunderclient. En la parte de header, deberá ingresar <code>Authorization</code> y en value ingresará de esta forma: <code>Token (ingresas tu token)</code>.</p>
+
+<h2>Método Products</h2>
+<p>El método <strong>Products</strong> sirve para listar todos los productos. Deberá ingresar a la siguiente URL: <span class="url">http://localhost:8000/products/</span> con el método HTTP de <span class="method">GET</span>.</p>
+
+<h2>Método Create Products</h2>
+<p>El método <strong>Create Products</strong> sirve para crear un nuevo producto. Para ingresar, deberá usar la siguiente URL: <span class="url ">http://localhost:8000/products/create/</span>. El método HTTP que se usará será <span class="method">GET</span>, y deberá ingresar los parámetros de <code>nombre</code>, <code>precio</code> y <code>stock</code> en formato JSON. Para usar este método, deberá usar el token que se entregó anteriormente. Este lo deberá ingresar en los Headers de Thunderclient, en la parte de header, deberá ingresar <code>Authorization</code> y en value ingresará de esta forma: <code>Token (ingresas tu token)</code>.</p>
+
+<h2>Método Actualizar Productos</h2>
+<p>El método <strong>Actualizar Productos</strong> se usa para actualizar un producto. Para usarlo, deberá ingresar en la siguiente URL: <span class="url">http://localhost:8000/products/pk/update/</span>, donde <code>pk</code> será el ID del producto que lo puedes obtener desde la página o el método <strong>Products</strong>. El método HTTP que usará es <span class="method">PATCH</span>, y se deberán ingresar los parámetros de <code>name</code>, <code>price</code> y <code>stock</code> nuevos en formato JSON. Para usar este método, deberá usar el token que se entregó anteriormente. Este lo deberá ingresar en los Headers de Thunderclient, en la parte de header, deberá ingresar <code>Authorization</code> y en value ingresará de esta forma: <code>Token (ingresas tu token)</code>.</p>
+
+<h2>Método Destroy Product</h2>
+<p>El método <strong>Destroy Product</strong> es para eliminar un producto. La URL es: <span class="url">http://localhost:8000/products/pk/delete/</span> con el método HTTP <span class="method">DELETE</span>, donde <code>pk</code> es el ID del producto. Para usar este método, deberá usar el token que se entregó anteriormente. Este lo deberá ingresar en los Headers de Thunderclient, en la parte de header, deberá ingresar <code>Authorization</code> y en value ingresará de esta forma: <code>Token (ingresas tu token)</code>.</p>
+
+<h2>Método Order List</h2>
+<p>El método <strong>Order List</strong> sirve para listar las órdenes. Para usarlo, se usará la siguiente URL: <span class="url">http://localhost:8000/products/orders/list/</span>. Se usará el método HTTP de <span class="method">GET</span>.</p>
+<div class="warning">
+    <strong>Nota:</strong> Esta funcionalidad no está terminada.
+</div>
+
+<h2>Método Create Order</h2>
+<p>El método <strong>Create Order</strong> sirve para crear una orden.para ingresar se usara la <span class="url">http://localhost:8000/product/orders/create/</span> Se usará el método HTTP de <span class="method">POST</span>. Para usar este método,deberas ingresar el <code>id</code> del producto, el precio y la quantity en formato json, deberás usar el token que se entregó anteriormente. Este lo deberá ingresar en los Headers de Thunderclient, en la parte de header, deberá ingresar <code>Authorization</code> y en value ingresará de esta forma: <code>Token (ingresas tu token)</code>.</p>
+<div class="warning">
+    <strong>Nota:</strong> Esta funcionalidad no está terminada.
+</div>
+
+</body>
+</html>
